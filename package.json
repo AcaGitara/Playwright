@@ -1,0 +1,26 @@
+{
+  "name": "playwright-project",
+  "version": "1.0.0",
+  "main": "Test.js",
+  "scripts": {
+    "test": "playwright test",
+    "test-login": "playwright test TestCases/login.spec.js",
+    "test-CheckItem": "playwright test TestCases/CheckItem.spec.js",
+    "test-OpenMenu": "playwright test TestCases/OpenMenu.spec.js",
+    "test-Sorting": "playwright test TestCases/Sorting.spec.js",
+    "test-OpenPropertyOfItem": "playwright test TestCases/OpenPropertyOfItem.spec.js",
+    "test-Scrolling": "playwright test TestCases/Scrolling.spec.js",
+    "test-AddRemoveCard": "playwright test TestCases/AddRemoveCard.spec.js",
+    "test-ShoppingCart": "playwright test TestCases/ShoppingCart.spec.js",
+    "test-AddMultipleItemsToCart": "playwright test TestCases/AddMultipleItemsToCart.spec.js",
+    "test-CompleteOrder.spec.js": "playwright test TestCases/CompleteOrder.spec.js",
+    "test-CompleteOrder": "playwright test TestCases/CompleteOrder.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
