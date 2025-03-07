@@ -1,5 +1,5 @@
 ﻿const { test, expect, chromium } = require('@playwright/test');
-const { performLogin, checkInventoryItem, sortItems } = require('../helpers/auth'); // Uvezi sve funkcije
+const { performLogin, checkInventoryItem, sortItems } = require('../helpers/auth');
 
 test('login, sort items multiple times, and logout', async () => {
     const browser = await chromium.launch({ headless: false });
@@ -8,27 +8,26 @@ test('login, sort items multiple times, and logout', async () => {
 
     await page.goto('https://www.saucedemo.com/');
 
-    // Pozivanje metode za logovanje sa parametrima
+    
     await performLogin(page, 'standard_user', 'secret_sauce');
 
-    // Provera URL-a nakon logovanja
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
-    // Sortiranje po imenu (A do Z)
+    // Sorting A to Z 
     await sortItems(page, 'az');
 
-    // Sortiranje po imenu (Z do A)
+    // Sorting Z to A
     await sortItems(page, 'za');
 
-    // Sortiranje po ceni (od najniže do najviše)
+    // Sorting by price ( from lower to higher)
     await sortItems(page, 'lohi');
 
-    // Sortiranje po ceni (od najviše do najniže)
+    // Sorting by price ( from higher to lower)
     await sortItems(page, 'hilo');
 
 
-    // Pauza od 2 sekunde pre zatvaranja pretraživača
+    // Pause for manual check befor closing of the browser
     setTimeout(async () => {
         await browser.close();
-    }, 2000); // 2000 milisekundi = 2 sekunde
+    }, 2000);
 });

@@ -2,28 +2,28 @@
 const { performLogin } = require('../helpers/auth'); // Uvezi funkcije
 
 test('login, click on shopping cart, check buttons, and logout with screenshots', async ({ page }) => {
-    // Definisanje putanje za čuvanje snimaka ekrana
+    // Path for saving screenshots
     const screenshotPath = 'C:\\Users\\aleks\\source\\repos\\playwright-project\\ScreenShoots\\'; // Ispravljena putanja
 
-    // Funkcija za snimanje ekrana
+    // Function for screenshots
     async function takeScreenshot(page, step) {
         await page.screenshot({ path: `${screenshotPath}step-${step}.png` });
     }
 
     await page.goto('https://www.saucedemo.com/');
 
-    // Pozivanje metode za logovanje sa parametrima
+    // Log in method
     await performLogin(page, 'standard_user', 'secret_sauce');
 
-    // Provera URL-a nakon logovanja
+    // Check URL after login
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
     await takeScreenshot(page, 1); // Snimak ekrana nakon učitavanja stranice
 
-    // Klik na dugme za korpu
+    // Click on the basket button
     await page.click('#shopping_cart_container .shopping_cart_link');
-    await takeScreenshot(page, 2); // Snimak ekrana nakon klika na korpu
+    await takeScreenshot(page, 2); // Screenshot after click on basket button 
 
-    // Provera prisutnosti dugmadi "Continue Shopping" i "Checkout"
+    // Checking availability of buttons  "Continue Shopping" and "Checkout"
     const continueShoppingButton = await page.$('#continue-shopping');
     const checkoutButton = await page.$('#checkout');
     if (continueShoppingButton) {
@@ -36,13 +36,13 @@ test('login, click on shopping cart, check buttons, and logout with screenshots'
     } else {
         console.log('Checkout button is not present');
     }
-    await takeScreenshot(page, 3); // Snimak ekrana nakon provere dugmadi
+    await takeScreenshot(page, 3); // Screenshot after checking availability
 
-    // Klik na dugme meni i logout
+    // Click on menu and logout
     await page.click('#react-burger-menu-btn');
     await page.click('#logout_sidebar_link');
-    await takeScreenshot(page, 4); // Snimak ekrana nakon logouta
+    await takeScreenshot(page, 4); // Screenshot after logout
 
-    // Pauza za ručnu proveru pre zatvaranja pretraživača
-    await page.waitForTimeout(2000); // 2000 milisekundi = 2 sekunde
+    // Pause for manual check befor closing of the browser
+    await page.waitForTimeout(2000); 
 });

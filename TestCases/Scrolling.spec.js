@@ -1,39 +1,39 @@
 ﻿const { test, expect, chromium } = require('@playwright/test');
-const { performLogin } = require('../helpers/auth'); // Uvezi funkcije
+const { performLogin } = require('../helpers/auth'); // Connecting the functions
 
 test('login, scroll to end, scroll to top, and logout with screenshots for scrolling', async ({ page }) => {
-    // Definisanje putanje za čuvanje snimaka ekrana
+    // Path for saving screenshots
     const screenshotPath = 'C:\\Users\\aleks\\source\\repos\\playwright-project\\ScreenShoots\\'; // Ispravljena putanja
 
-    // Funkcija za snimanje ekrana
+    // Function for screenshots
     async function takeScreenshot(page, step) {
         await page.screenshot({ path: `${screenshotPath}step-${step}.png` });
     }
 
     await page.goto('https://www.saucedemo.com/');
 
-    // Pozivanje metode za logovanje sa parametrima
+    // Log in method
     await performLogin(page, 'standard_user', 'secret_sauce');
 
-    // Provera URL-a nakon logovanja
+    // Check URL after login
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
-    // Skrolovanje do kraja stranice
+    // Scroll at the end of the page 
     await page.evaluate(() => {
         window.scrollTo(0, document.body.scrollHeight);
     });
-    await takeScreenshot(page, 1); // Snimak ekrana nakon skrolovanja na dno
+    await takeScreenshot(page, 1); // Screenshot after scroll to the end of the page
 
-    // Skrolovanje nazad na vrh stranice
+    // Scroll to the top of the page
     await page.evaluate(() => {
         window.scrollTo(0, 0);
     });
-    await takeScreenshot(page, 2); // Snimak ekrana nakon skrolovanja na vrh
+    await takeScreenshot(page, 2); // Screenshotafter scroll to the top
 
-    // Klik na dugme meni i logout
+    // Click on menu and logout
     await page.click('#react-burger-menu-btn');
     await page.click('#logout_sidebar_link');
 
-    // Pauza za ručnu proveru pre zatvaranja pretraživača
-    await page.waitForTimeout(2000); // 2000 milisekundi = 2 sekunde
+    // Pause for manual check befor closing of the browser
+    await page.waitForTimeout(2000); 
 });

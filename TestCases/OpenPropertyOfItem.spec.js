@@ -1,37 +1,37 @@
 ﻿const { test, expect, chromium } = require('@playwright/test');
-const { performLogin, checkInventoryItem } = require('../helpers/auth'); // Uvezi funkcije
+const { performLogin, checkInventoryItem } = require('../helpers/auth'); 
 
 test('check inventory item, view details and log font info with screenshots', async ({ page }) => {
-    // Definisanje putanje za čuvanje snimaka ekrana
-    const screenshotPath = 'C:\\Users\\aleks\\source\\repos\\playwright-project\\ScreenShoots\\'; // Ispravljena putanja
+    
+    const screenshotPath = 'C:\\Users\\aleks\\source\\repos\\playwright-project\\ScreenShoots\\';
 
-    // Funkcija za snimanje ekrana
+    
     async function takeScreenshot(page, step) {
         await page.screenshot({ path: `${screenshotPath}step-${step}.png` });
     }
 
     await page.goto('https://www.saucedemo.com/');
-    await takeScreenshot(page, 1); // Snimak ekrana nakon otvaranja stranice
+    await takeScreenshot(page, 1); 
 
-    // Pozivanje metode za logovanje sa parametrima
+    
     await performLogin(page, 'standard_user', 'secret_sauce');
-    await takeScreenshot(page, 2); // Snimak ekrana nakon logovanja
+    await takeScreenshot(page, 2); 
 
-    // Provera URL-a nakon logovanja
+   
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-    await takeScreenshot(page, 3); // Snimak ekrana nakon provere URL-a
+    await takeScreenshot(page, 3); 
 
-    // Provera da li inventar sadrži zadati artikl
+    // Check if the inventory contains a given item
     const itemExists = await checkInventoryItem(page, 'Sauce Labs Bike Light');
-    console.log('Item exists:', itemExists); // Log za proveru
-    await takeScreenshot(page, 4); // Snimak ekrana nakon provere inventara
+    console.log('Item exists:', itemExists); 
+    await takeScreenshot(page, 4); 
 
     if (itemExists) {
-        // Klik na stavku inventara 'Sauce Labs Bike Light' kako bi se otvorili detalji
+        // Click on the 'Sauce Labs Bike Light' inventory item to open the details
         await page.click('.inventory_item_name', { text: 'Sauce Labs Bike Light' });
-        await takeScreenshot(page, 5); // Snimak ekrana nakon klika na artikl
+        await takeScreenshot(page, 5); 
 
-        // Prikupljanje informacija o fontu i veličini teksta za naziv artikla
+        // Collecting information about the font and text size for the article name
         const nameFontInfo = await page.$eval('.inventory_details_name.large_size', element => {
             const style = window.getComputedStyle(element);
             return {
@@ -40,9 +40,9 @@ test('check inventory item, view details and log font info with screenshots', as
             };
         });
         console.log('Name Font info:', nameFontInfo);
-        await takeScreenshot(page, 6); // Snimak ekrana nakon prikupljanja informacija o fontu naziva
+        await takeScreenshot(page, 6); 
 
-        // Prikupljanje informacija o fontu i veličini teksta za opis artikla
+        // Collect information about the font and size of the text for the description of the item
         const descFontInfo = await page.$eval('.inventory_details_desc.large_size', element => {
             const style = window.getComputedStyle(element);
             return {
@@ -51,9 +51,9 @@ test('check inventory item, view details and log font info with screenshots', as
             };
         });
         console.log('Description Font info:', descFontInfo);
-        await takeScreenshot(page, 7); // Snimak ekrana nakon prikupljanja informacija o fontu opisa
+        await takeScreenshot(page, 7);
 
-        // Prikupljanje informacija o fontu i veličini teksta za cenu artikla
+        // Collecting information about the font and size of the text for the price of the item
         const priceFontInfo = await page.$eval('.inventory_details_price', element => {
             const style = window.getComputedStyle(element);
             return {
@@ -62,14 +62,14 @@ test('check inventory item, view details and log font info with screenshots', as
             };
         });
         console.log('Price Font info:', priceFontInfo);
-        await takeScreenshot(page, 8); // Snimak ekrana nakon prikupljanja informacija o fontu cene
+        await takeScreenshot(page, 8); 
 
-        // Čekanje za pregled pre zatvaranja pretraživača
-        await page.waitForTimeout(5000); // 5000 milisekundi = 5 sekundi
+        
+        await page.waitForTimeout(5000); 
 
-        // Vraćanje na stranicu sa inventarom
+        // Back to the page with Inventory 
         await page.click('#back-to-products');
-        await takeScreenshot(page, 9); // Snimak ekrana nakon vraćanja na inventar
+        await takeScreenshot(page, 9); 
     } else {
         console.log('Item not found in inventory.');
     }

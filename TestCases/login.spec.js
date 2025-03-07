@@ -1,5 +1,5 @@
 ﻿const { test, expect, chromium } = require('@playwright/test');
-const { performLogin } = require('../helpers/auth'); // path to the function
+const { performLogin } = require('../helpers/auth'); 
 
 test('login test', async () => {
     const browser = await chromium.launch({ headless: false });
@@ -13,9 +13,9 @@ test('login test', async () => {
 
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
-    // Pauza od 2 sekunde pre zatvaranja pretraživača
+    
     setTimeout(async () => {
         await browser.close();
-    }, 2000); // 2000 milisekundi = 2 sekunde
+    }, 2000); 
 
 });
